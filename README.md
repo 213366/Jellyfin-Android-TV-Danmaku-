@@ -9,6 +9,7 @@
 ### 弹幕功能 (Danmaku Support)
 视频播放时支持实时弹幕/评论叠加显示。
 Real-time danmaku comment overlay during video playback.
+<img width="926" height="530" alt="image" src="https://github.com/user-attachments/assets/a49d521a-245b-4b6d-93bd-7bd6fa72406f" />
 
 ### 播放缓冲 10-20 分钟 (Playback Buffer 10-20 min)
 增加了 10-20 分钟的播放缓冲，解决跨运营商播放卡顿问题，让跨网播放更流畅。

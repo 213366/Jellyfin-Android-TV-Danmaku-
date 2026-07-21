@@ -3,6 +3,12 @@
 
 ---
 
+> **增强版 (Enhanced Fork)** - 本 Fork 在原版基础上增加了以下功能：
+> - **弹幕功能 (Danmaku Support)**: 视频播放时支持实时弹幕/评论叠加显示
+> - **缓存时间增强 (Cache Time Enhancement)**: 优化了缓存时长，提升离线体验
+> 
+> *代码由 [TRAE](https://trae.ai) + DeepSeek V4 Pro 生成*
+
 <p align="center">
 <img alt="Logo banner" src="https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true"/>
 <br/><br/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Jellyfin</string>
-    <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin Debug</string>
+    <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">弹幕JellyfinTV</string>
+    <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">弹幕JellyfinTV</string>
     <string name="video_error_unknown_error">Failed to load video</string>
     <string name="loading">Loading…</string>
     <string name="btn_cancel">Cancel</string>
@@ -687,4 +687,50 @@
     <string name="truehd">TrueHD</string>
     <string name="eac3_atmos">DD+ Atmos</string>
     <string name="truehd_atmos">TrueHD Atmos</string>
+    <!-- Danmaku -->
+    <string name="danmaku_button_description">Danmaku settings</string>
+    <string name="danmaku_enabled">Danmaku</string>
+    <string name="danmaku_match_none">Not matched yet</string>
+    <string name="danmaku_match_info">Matched: %1$s</string>
+    <string name="danmaku_match_button">Manual match</string>
+    <string name="danmaku_reload_button">Reload</string>
+    <string name="danmaku_offset_label">Time offset (seconds, positive delays danmaku)</string>
+    <string name="danmaku_offset_hint">0</string>
+    <string name="danmaku_offset_minus">-0.5</string>
+    <string name="danmaku_offset_plus">+0.5</string>
+    <string name="danmaku_opacity_label">Opacity: %1$d%%</string>
+    <string name="danmaku_font_size_label">Font size: %1$dsp</string>
+    <string name="danmaku_speed_label">Speed: %1$d</string>
+    <string name="danmaku_display_area_label">Display area: %1$d%%</string>
+    <string name="danmaku_mode_filter">Type filter</string>
+    <string name="danmaku_mode_scroll">Scroll</string>
+    <string name="danmaku_mode_top">Top</string>
+    <string name="danmaku_mode_bottom">Bottom</string>
+    <string name="danmaku_source_filter">Source filter</string>
+    <string name="danmaku_source_bilibili">BiliBili</string>
+    <string name="danmaku_source_gamer">Gamer</string>
+    <string name="danmaku_source_dandan">DanDanPlay</string>
+    <string name="danmaku_source_other">Other</string>
+    <string name="danmaku_density_limit">Density limit</string>
+    <string name="danmaku_density_off">Off</string>
+    <string name="danmaku_density_low">Low</string>
+    <string name="danmaku_density_medium">Medium</string>
+    <string name="danmaku_density_high">High</string>
+    <string name="danmaku_ch_convert">Chinese conversion</string>
+    <string name="danmaku_ch_convert_none">None</string>
+    <string name="danmaku_ch_convert_simplified">Simplified</string>
+    <string name="danmaku_ch_convert_traditional">Traditional</string>
+    <string name="danmaku_anti_overlap">Strict anti-overlap (drop overflow)</string>
+    <string name="danmaku_use_xml">Prefer server XML danmaku (jellyfin-plugin-danmu)</string>
+    <string name="danmaku_custom_api">Custom API base URL</string>
+    <string name="danmaku_custom_api_hint">Leave empty to use the default DanDanPlay proxy</string>
+    <string name="danmaku_reload_note">Chinese conversion, XML source and API changes are applied by reloading danmaku when this menu closes.</string>
+    <string name="danmaku_search_title">Search danmaku</string>
+    <string name="danmaku_search_action">Search</string>
+    <string name="danmaku_select_anime">Select show</string>
+    <string name="danmaku_select_episode">Select episode</string>
+    <string name="danmaku_source_server_xml">Server XML danmaku</string>
+    <string name="danmaku_loaded_toast">Loaded %1$d danmaku: %2$s</string>
+    <string name="danmaku_load_failed">Failed to load danmaku</string>
+    <string name="danmaku_no_match">No danmaku match found, try manual match</string>
 </resources>

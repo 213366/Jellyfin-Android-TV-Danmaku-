@@ -34,6 +34,8 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
+import org.jellyfin.androidtv.ui.playback.danmaku.DandanplayClient
+import org.jellyfin.androidtv.ui.playback.danmaku.DanmakuPreferences
 import org.jellyfin.androidtv.ui.playback.external.DefaultExternalPlayerApi
 import org.jellyfin.androidtv.ui.playback.external.ExternalPlayerApi
 import org.jellyfin.androidtv.ui.playback.external.MpvExternalPlayerApi
@@ -67,6 +69,7 @@ import org.jellyfin.sdk.api.client.HttpClientOptions
 import org.jellyfin.sdk.api.okhttp.OkHttpFactory
 import org.jellyfin.sdk.createJellyfin
 import org.jellyfin.sdk.model.ClientInfo
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -170,6 +173,10 @@ val appModule = module {
 	viewModel { SettingsLibrariesScreenViewModel(get()) }
 
 	single { BackgroundService(get(), get(), get(), get(), get()) }
+
+	// Danmaku
+	single { DanmakuPreferences(androidApplication()) }
+	single { DandanplayClient(get<OkHttpFactory>().createClient(get())) }
 
 	single { MarkdownRenderer(get()) }
 	single { ItemLauncher() }

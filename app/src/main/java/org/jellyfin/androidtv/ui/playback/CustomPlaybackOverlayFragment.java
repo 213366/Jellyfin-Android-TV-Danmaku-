@@ -63,6 +63,8 @@ import org.jellyfin.androidtv.ui.playback.overlay.LeanbackOverlayFragment;
 import org.jellyfin.androidtv.ui.presentation.CardPresenter;
 import org.jellyfin.androidtv.ui.presentation.ChannelCardPresenter;
 import org.jellyfin.androidtv.ui.presentation.MutableObjectAdapter;
+import org.jellyfin.androidtv.ui.playback.danmaku.DanmakuController;
+import org.jellyfin.androidtv.ui.playback.danmaku.DanmakuView;
 import org.jellyfin.androidtv.ui.presentation.PositionableListRowPresenter;
 import org.jellyfin.androidtv.util.CoroutineUtils;
 import org.jellyfin.androidtv.util.DateTimeExtensionsKt;
@@ -83,6 +85,10 @@ import java.util.List;
 import java.util.UUID;
 
 import kotlin.Lazy;
+import kotlinx.coroutines.CoroutineScope;
+import kotlinx.coroutines.CoroutineScopeKt;
+import kotlinx.coroutines.Dispatchers;
+import kotlinx.coroutines.SupervisorKt;
 import timber.log.Timber;
 
 public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGuide, View.OnKeyListener {
@@ -126,6 +132,15 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     private boolean navigating = false;
 
     protected LeanbackOverlayFragment leanbackOverlayFragment;
+
+    private DanmakuView danmakuView;
+    private DanmakuController danmakuController;
+    private CoroutineScope danmakuScope;
+
+    @Nullable
+    public DanmakuController getDanmakuController() {
+        return danmakuController;
+    }
 
     private final Lazy<org.jellyfin.sdk.api.client.ApiClient> api = inject(org.jellyfin.sdk.api.client.ApiClient.class);
     private final Lazy<MediaManager> mediaManager = inject(MediaManager.class);
@@ -205,6 +220,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return false;
         });
 
+        // Setup danmaku view
+        danmakuView = binding.getRoot().findViewById(R.id.danmaku_view);
+        danmakuScope = CoroutineScopeKt.CoroutineScope(SupervisorKt.SupervisorJob(null).plus(Dispatchers.getMain()));
+
         return binding.getRoot();
     }
 
@@ -223,6 +242,18 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (playbackController != null) {
             playbackController.init(new VideoManager(requireActivity(), view, helper), this);
         }
+
+        // Setup danmaku controller
+        if (danmakuView != null) {
+            danmakuView.setPositionProvider(() -> {
+                PlaybackController pc = playbackControllerContainer.getValue().getPlaybackController();
+                if (pc != null && pc.mVideoManager != null) {
+                    return pc.mVideoManager.getCurrentPosition();
+                }
+                return 0L;
+            });
+            danmakuController = new DanmakuController(requireContext(), danmakuView, danmakuScope);
+        }
     }
 
     @Override
@@ -232,6 +263,17 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         binding = null;
         // To fix race condition in hide timer
         mIsVisible = false;
+
+        // Cleanup danmaku
+        if (danmakuController != null) {
+            danmakuController.destroy();
+            danmakuController = null;
+        }
+        danmakuView = null;
+        if (danmakuScope != null) {
+            CoroutineScopeKt.cancel(danmakuScope, null);
+            danmakuScope = null;
+        }
     }
 
     @Override
@@ -1268,6 +1310,11 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
                 prepareChannelAdapter();
             } else {
                 prepareChapterAdapter();
+            }
+
+            // Notify danmaku controller about media item change
+            if (danmakuController != null) {
+                danmakuController.onMediaItemChanged(current);
             }
         }
     }

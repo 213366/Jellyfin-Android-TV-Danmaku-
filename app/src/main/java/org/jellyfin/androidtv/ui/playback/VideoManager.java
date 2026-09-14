@@ -264,6 +264,17 @@ public class VideoManager {
         }
         exoPlayerBuilder.setLoadControl(loadControl);
 
+        // Custom build: always prefer a long buffer (forward 10-20 min, back buffer ~3 min),
+        // overriding the BufferLength preference selected above.
+        int targetBufferBytes = (int) Math.min(Runtime.getRuntime().maxMemory() * 7 / 10, 1_073_741_824L);
+        int backBufferMs = Math.min(targetBufferBytes / 3 / 6250, 300_000);
+        loadControl = new DefaultLoadControl.Builder()
+                .setBufferDurationsMs(600_000, 1_200_000, 2_500, 5_000)
+                .setBackBuffer(backBufferMs, false)
+                .setTargetBufferBytes(targetBufferBytes)
+                .build();
+        exoPlayerBuilder.setLoadControl(loadControl);
+
         exoPlayerBuilder.setAudioAttributes(new AudioAttributes.Builder()
                 .setUsage(C.USAGE_MEDIA)
                 .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)

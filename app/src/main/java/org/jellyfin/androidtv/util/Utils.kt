@@ -74,3 +74,17 @@ object Utils : KoinComponent {
 	@JvmStatic
 	fun uuidOrNull(string: String?): UUID? = string?.toUUIDOrNull()
 }
+
+/**
+ * Extension function to show a short toast from any Context.
+ */
+fun Context.toast(message: String) {
+	Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+/**
+ * Extension function to show a short toast using a string resource.
+ */
+fun Context.toast(resourceId: Int) {
+	Toast.makeText(this, this.getString(resourceId), Toast.LENGTH_SHORT).show()
+}

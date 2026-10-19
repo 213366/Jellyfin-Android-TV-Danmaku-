@@ -10,7 +10,7 @@ enum class DanmakuMode {
 }
 
 /**
- * 弹幕来源（依据 dandanplay 评论中发送者前缀区分）
+ * 弹幕来源（依据弹幕属性中的发送者/来源前缀区分）
  */
 enum class DanmakuSource {
     DANDAN,
@@ -36,9 +36,9 @@ data class DanmakuComment(
         private const val MIN_PARTS = 3
 
         /**
-         * 解析 dandanplay 格式的弹幕参数
+         * 解析 misaka / dandanplay 通用的弹幕参数
          *
-         * @param p 格式："time,mode,color,user"
+         * @param p 格式："time,mode,color,sender"，例如 "1.665,1,16777215,[bilibili]"
          * @param text 弹幕内容
          */
         @Suppress("MagicNumber", "ReturnCount")
@@ -57,8 +57,9 @@ data class DanmakuComment(
             val color = (parts[2].trim().toIntOrNull() ?: COLOR_MASK) and COLOR_MASK
             val user = parts.getOrElse(3) { "" }.trim()
             val source = when {
-                user.startsWith("[BiliBili]") -> DanmakuSource.BILIBILI
-                user.startsWith("[Gamer]") -> DanmakuSource.GAMER
+                user.startsWith("[bilibili]", ignoreCase = true) -> DanmakuSource.BILIBILI
+                user.startsWith("[gamer]", ignoreCase = true) -> DanmakuSource.GAMER
+                user.startsWith("[dandanplay]", ignoreCase = true) -> DanmakuSource.DANDAN
                 user.startsWith("[") -> DanmakuSource.OTHER
                 else -> DanmakuSource.DANDAN
             }

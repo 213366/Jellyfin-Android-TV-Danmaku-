@@ -327,15 +327,6 @@
             android:textColor="@android:color/white"
             android:textSize="14sp" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/danmaku_use_xml_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/danmaku_use_xml"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

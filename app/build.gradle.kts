@@ -1,9 +1,22 @@
+import java.util.Properties
+
 plugins {
 	alias(libs.plugins.aboutlibraries)
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.kotlin.serialization)
 }
+
+val localProperties = Properties().apply {
+	val file = rootProject.file("local.properties")
+	if (file.exists()) file.inputStream().use { load(it) }
+}
+val misakaApiBase = (
+	localProperties.getProperty("misaka.api.base")
+		?: System.getenv("MISAKA_API_BASE")
+		?: ""
+	).trim()
+val misakaApiBaseLiteral = "\"" + misakaApiBase.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
 android {
 	namespace = "org.jellyfin.androidtv"
@@ -17,6 +30,7 @@ android {
 		applicationId = namespace
 		versionName = project.getVersionName()
 		versionCode = getVersionCode(versionName!!)
+		buildConfigField("String", "MISAKA_API_BASE_URL", misakaApiBaseLiteral)
 	}
 
 	buildFeatures {

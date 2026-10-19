@@ -23,6 +23,7 @@
 
 | 日期 | 上游基线 | 产品版本 | 产物 | 结果 |
 | --- | --- | --- | --- | --- |
+| 2026-10-20 | `upstream/master` `3d087faa0`（2026-09-13） | 1.2.0 | `danmaku-jellyfintv-v1.2.0.apk`（55.0 MB，SHA-256 前 16 位 `214FEB970B50951D`） | 弹幕源切换为自建 misaka（`match` + `comment`），移除 dandanplay/服务端 XML 分支；`assembleDebug` 通过 |
 | 2026-09-15 | `upstream/master` `3d087faa0`（2026-09-13） | 1.1.1 | `danmaku-jellyfintv-v1.1.1.apk`（49.3 MB，SHA-256 前 16 位 `1A3DB882BF53962D`） | rebase 成功，`assembleDebug` 通过；缓冲保留本项目覆盖 |
 | 2026-07-21 | `master` `14a5e160e`（= v0.19.9，2026-05-03） | 1.0.0 | `danmaku-jellyfintv-v1.0.0.apk`（27.2 MB） | 初始版本 |
 
@@ -41,7 +42,8 @@ git push --force-with-lease origin danmaku
 
 - 编译环境：JDK 21（`~/.gradle/jdks` 已缓存）、Android SDK platform 37。
 - 产物：`app/build/outputs/apk/debug/danmaku-jellyfintv-v<版本>-debug.apk`
-- 版本号：`gradle.properties` 的 `jellyfin.version`（当前 `v1.1.1`）。
+- 版本号：`gradle.properties` 的 `jellyfin.version`（当前 `v1.2.0`）。
+- 弹幕服务：`local.properties` 增加 `misaka.api.base=https://<host>/danmu/api/v1/<token>`（也可用环境变量 `MISAKA_API_BASE`），构建时注入 `BuildConfig.MISAKA_API_BASE_URL`；`local.properties` 已被 gitignore，Token 不进入源码。APK 内仍会包含该地址，分发 APK 时注意 Token 泄露风险。
 - 签名：目前使用 Android **调试签名**（与 1.0.0 一致），`applicationId` 为 `org.jellyfin.androidtv.debug`，可直接覆盖安装旧版。
   若改用自有密钥的 release 签名，包名与签名都会变，需要先卸载旧版再安装。
 

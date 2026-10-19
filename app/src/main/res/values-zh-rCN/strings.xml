@@ -711,15 +711,13 @@
     <string name="danmaku_ch_convert_simplified">简体</string>
     <string name="danmaku_ch_convert_traditional">繁体</string>
     <string name="danmaku_anti_overlap">严格防重叠（超出轨道丢弃）</string>
-    <string name="danmaku_use_xml">优先使用服务端 XML 弹幕（jellyfin-plugin-danmu）</string>
     <string name="danmaku_custom_api">自定义 API 地址</string>
-    <string name="danmaku_custom_api_hint">留空使用默认弹弹play代理</string>
-    <string name="danmaku_reload_note">简繁转换、XML 弹幕源与 API 地址的修改将在关闭本菜单后重新加载弹幕生效。</string>
+    <string name="danmaku_custom_api_hint">留空使用内置御坂服务（自定义需包含 /api/v1/{token}）</string>
+    <string name="danmaku_reload_note">简繁转换与 API 地址的修改将在关闭本菜单后重新加载弹幕生效。</string>
     <string name="danmaku_search_title">搜索弹幕</string>
     <string name="danmaku_search_action">搜索</string>
     <string name="danmaku_select_anime">选择节目</string>
     <string name="danmaku_select_episode">选择剧集</string>
-    <string name="danmaku_source_server_xml">服务端 XML 弹幕</string>
     <string name="danmaku_loaded_toast">已加载 %1$d 条弹幕：%2$s</string>
     <string name="danmaku_load_failed">弹幕加载失败</string>
     <string name="danmaku_no_match">未找到弹幕匹配，可尝试手动匹配</string>

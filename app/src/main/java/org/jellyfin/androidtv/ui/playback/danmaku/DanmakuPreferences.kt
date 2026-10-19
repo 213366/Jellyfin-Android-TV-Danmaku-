@@ -3,6 +3,7 @@ package org.jellyfin.androidtv.ui.playback.danmaku
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import org.jellyfin.androidtv.BuildConfig
 import org.json.JSONObject
 
 /**
@@ -21,6 +22,11 @@ data class SavedDanmakuMatch(
 class DanmakuPreferences(context: Context) {
     private val prefs: SharedPreferences =
         context.getSharedPreferences("${context.packageName}_danmaku", Context.MODE_PRIVATE)
+
+    init {
+        migrateLegacyApiBase()
+        migrateMatchMemory()
+    }
 
     var enabled: Boolean
         get() = prefs.getBoolean(KEY_ENABLED, true)
@@ -62,10 +68,7 @@ class DanmakuPreferences(context: Context) {
         get() = prefs.getBoolean(KEY_ANTI_OVERLAP, false)
         set(value) = prefs.edit { putBoolean(KEY_ANTI_OVERLAP, value) }
 
-    var useXmlDanmaku: Boolean
-        get() = prefs.getBoolean(KEY_USE_XML, false)
-        set(value) = prefs.edit { putBoolean(KEY_USE_XML, value) }
-
+    /** 自定义 misaka API 地址（需包含 /api/v1/{token}），留空使用内置地址 */
     var customApiBaseUrl: String
         get() = prefs.getString(KEY_CUSTOM_API, "").orEmpty()
         set(value) = prefs.edit { putString(KEY_CUSTOM_API, value.trim()) }
@@ -112,6 +115,31 @@ class DanmakuPreferences(context: Context) {
         prefs.edit { putString(KEY_PREFIX_EPISODE + episodeKey, json) }
     }
 
+    /** 清空番剧/剧集匹配记忆。切换弹幕服务后旧 episodeId 不再有效。 */
+    fun clearMatchMemory() {
+        val keys = prefs.all.keys.filter { key ->
+            key.startsWith(KEY_PREFIX_ANIME) || key.startsWith(KEY_PREFIX_EPISODE)
+        }
+        prefs.edit {
+            keys.forEach { key -> remove(key) }
+        }
+    }
+
+    /** v1.1.x 保存的是 dandanplay 的 episodeId，升级到 misaka 后需要重新匹配。 */
+    private fun migrateMatchMemory() {
+        if (prefs.getString(KEY_MATCH_SCHEMA, null) == MATCH_SCHEMA_VERSION) return
+        clearMatchMemory()
+        prefs.edit { putString(KEY_MATCH_SCHEMA, MATCH_SCHEMA_VERSION) }
+    }
+
+    /** v1.1.x 若手动保存过弹弹play 代理地址，升级后清空以回落到内置 misaka。 */
+    private fun migrateLegacyApiBase() {
+        val base = customApiBaseUrl
+        if (base.contains("ddplay-api.930524.xyz") || base.contains("api.dandanplay.net")) {
+            customApiBaseUrl = ""
+        }
+    }
+
     fun getOffset(episodeKey: String): Double =
         prefs.getFloat(KEY_PREFIX_OFFSET + episodeKey, 0f).toDouble()
 
@@ -120,7 +148,13 @@ class DanmakuPreferences(context: Context) {
     }
 
     companion object {
-        const val DEFAULT_API_BASE_URL = "https://ddplay-api.930524.xyz/cors/https://api.dandanplay.net"
+        /**
+         * 自建御坂弹幕服务（misaka）地址，路径需包含 `/api/v1/{token}`。
+         *
+         * 为避免 Token 进入源码，构建时从 local.properties 的
+         * `misaka.api.base`（或环境变量 MISAKA_API_BASE）注入。
+         */
+        val DEFAULT_API_BASE_URL: String = BuildConfig.MISAKA_API_BASE_URL
 
         const val SOURCE_FILTER_BILIBILI = 1
         const val SOURCE_FILTER_GAMER = 2
@@ -153,10 +187,11 @@ class DanmakuPreferences(context: Context) {
         private const val KEY_DENSITY_LIMIT = "danmaku_density_limit"
         private const val KEY_CH_CONVERT = "danmaku_ch_convert"
         private const val KEY_ANTI_OVERLAP = "danmaku_anti_overlap"
-        private const val KEY_USE_XML = "danmaku_use_xml"
         private const val KEY_CUSTOM_API = "danmaku_custom_api"
         private const val KEY_PREFIX_ANIME = "danmaku_anime_"
         private const val KEY_PREFIX_EPISODE = "danmaku_episode_"
         private const val KEY_PREFIX_OFFSET = "danmaku_offset_"
+        private const val KEY_MATCH_SCHEMA = "danmaku_match_schema"
+        private const val MATCH_SCHEMA_VERSION = "misaka_v1"
     }
 }

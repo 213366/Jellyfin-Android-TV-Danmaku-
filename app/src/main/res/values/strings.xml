@@ -721,15 +721,13 @@
     <string name="danmaku_ch_convert_simplified">Simplified</string>
     <string name="danmaku_ch_convert_traditional">Traditional</string>
     <string name="danmaku_anti_overlap">Strict anti-overlap (drop overflow)</string>
-    <string name="danmaku_use_xml">Prefer server XML danmaku (jellyfin-plugin-danmu)</string>
     <string name="danmaku_custom_api">Custom API base URL</string>
-    <string name="danmaku_custom_api_hint">Leave empty to use the default DanDanPlay proxy</string>
-    <string name="danmaku_reload_note">Chinese conversion, XML source and API changes are applied by reloading danmaku when this menu closes.</string>
+    <string name="danmaku_custom_api_hint">Leave empty to use the built-in Misaka server (custom URL must include /api/v1/{token})</string>
+    <string name="danmaku_reload_note">Chinese conversion and API address changes are applied by reloading danmaku when this menu closes.</string>
     <string name="danmaku_search_title">Search danmaku</string>
     <string name="danmaku_search_action">Search</string>
     <string name="danmaku_select_anime">Select show</string>
     <string name="danmaku_select_episode">Select episode</string>
-    <string name="danmaku_source_server_xml">Server XML danmaku</string>
     <string name="danmaku_loaded_toast">Loaded %1$d danmaku: %2$s</string>
     <string name="danmaku_load_failed">Failed to load danmaku</string>
     <string name="danmaku_no_match">No danmaku match found, try manual match</string>

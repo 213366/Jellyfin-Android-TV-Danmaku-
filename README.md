@@ -1,5 +1,13 @@
 <h1 align="center">Jellyfin Android TV (Danmaku 弹幕版)</h1>
 
+> [!IMPORTANT]
+> **本仓库的弹幕功能需要自行部署 misaka / Danmaku requires a self-hosted Misaka server**
+>
+> 本 fork 的弹幕分支已停用原版弹弹play API 和 `jellyfin-plugin-danmu` XML 接口，改为 [misaka](https://github.com/l429609201/misaka_danmu_server)。
+> public 包不内置服务地址或 Token；请自行部署 misaka，并在首次播放时填写地址和 Token。Releases 只发布 public 包。
+>
+> **English:** deploy your own Misaka instance. The public build contains no server address or token and asks for them on first playback.
+
 ---
 
 > **增强版 Fork** - 本项目 Fork 自 [jellyfin/jellyfin-androidtv](https://github.com/jellyfin/jellyfin-androidtv)，新增弹幕功能和播放缓冲。

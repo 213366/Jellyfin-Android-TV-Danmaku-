@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/danmaku_api_setup_message"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/danmaku_api_server_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="@string/danmaku_api_server_hint"
+        android:importantForAutofill="no"
+        android:inputType="textUri"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/danmaku_api_token_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/danmaku_api_token_hint"
+        android:importantForAutofill="no"
+        android:inputType="textVisiblePassword"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/danmaku_api_setup_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp" />
+</LinearLayout>

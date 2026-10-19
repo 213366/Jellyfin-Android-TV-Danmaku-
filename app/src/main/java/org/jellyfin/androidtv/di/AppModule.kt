@@ -34,7 +34,7 @@ import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.navigation.NavigationRepositoryImpl
 import org.jellyfin.androidtv.ui.playback.PlaybackControllerContainer
-import org.jellyfin.androidtv.ui.playback.danmaku.DandanplayClient
+import org.jellyfin.androidtv.ui.playback.danmaku.MisakaClient
 import org.jellyfin.androidtv.ui.playback.danmaku.DanmakuPreferences
 import org.jellyfin.androidtv.ui.playback.external.DefaultExternalPlayerApi
 import org.jellyfin.androidtv.ui.playback.external.ExternalPlayerApi
@@ -176,7 +176,7 @@ val appModule = module {
 
 	// Danmaku
 	single { DanmakuPreferences(androidApplication()) }
-	single { DandanplayClient(get<OkHttpFactory>().createClient(get())) }
+	single { MisakaClient(get<OkHttpFactory>().createClient(get())) }
 
 	single { MarkdownRenderer(get()) }
 	single { ItemLauncher() }

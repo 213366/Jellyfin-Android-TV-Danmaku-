@@ -30,7 +30,6 @@ android {
 		applicationId = namespace
 		versionName = project.getVersionName()
 		versionCode = getVersionCode(versionName!!)
-		buildConfigField("String", "MISAKA_API_BASE_URL", misakaApiBaseLiteral)
 	}
 
 	buildFeatures {
@@ -65,16 +64,25 @@ android {
 		includeInApk = false
 	}
 
+	flavorDimensions += "distribution"
+	productFlavors {
+		register("personal") {
+			dimension = "distribution"
+			isDefault = true
+			buildConfigField("String", "MISAKA_API_BASE_URL", misakaApiBaseLiteral)
+		}
+		register("public") {
+			dimension = "distribution"
+			applicationIdSuffix = ".public"
+			buildConfigField("String", "MISAKA_API_BASE_URL", "\"\"")
+		}
+	}
+
 	buildTypes {
 		release {
 			isMinifyEnabled = true
 			isShrinkResources = true
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-			// Set package names used in various XML files
-			resValue("string", "app_id", namespace!!)
-			resValue("string", "app_search_suggest_authority", "${namespace}.content")
-			resValue("string", "app_search_suggest_intent_data", "content://${namespace}.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_release")
@@ -87,11 +95,6 @@ android {
 		debug {
 			// Use different application id to run release and debug at the same time
 			applicationIdSuffix = ".debug"
-
-			// Set package names used in various XML files
-			resValue("string", "app_id", namespace + applicationIdSuffix)
-			resValue("string", "app_search_suggest_authority", "${namespace + applicationIdSuffix}.content")
-			resValue("string", "app_search_suggest_intent_data", "content://${namespace + applicationIdSuffix}.content/intent")
 
 			// Set flavored application name
 			resValue("string", "app_name", "@string/app_name_debug")
@@ -108,6 +111,24 @@ android {
 
 	testOptions.unitTests.all {
 		it.useJUnitPlatform()
+	}
+}
+
+androidComponents {
+	onVariants { variant ->
+		val appId = variant.applicationId.get()
+		variant.resValues.put(
+			variant.makeResValueKey("string", "app_id"),
+			com.android.build.api.variant.ResValue(appId, null),
+		)
+		variant.resValues.put(
+			variant.makeResValueKey("string", "app_search_suggest_authority"),
+			com.android.build.api.variant.ResValue("$appId.content", null),
+		)
+		variant.resValues.put(
+			variant.makeResValueKey("string", "app_search_suggest_intent_data"),
+			com.android.build.api.variant.ResValue("content://$appId.content/intent", null),
+		)
 	}
 }
 

@@ -23,6 +23,7 @@
 
 | 日期 | 上游基线 | 产品版本 | 产物 | 结果 |
 | --- | --- | --- | --- | --- |
+| 2026-10-20 | `upstream/master` `e846f60b8`（2026-10-19） | 1.2.2 | `danmaku-jellyfintv-v1.2.2-personal.apk`（51.5 MB，`E6705839C1EF93F8`）/ `danmaku-jellyfintv-v1.2.2-public.apk`（51.5 MB，`4592108B41BEE728`） | rebase 最新上游（130 个提交，41 个非翻译）；public 不含 Token；两套 debug 编译、签名通过 |
 | 2026-10-20 | `upstream/master` `3d087faa0`（2026-09-13） | 1.2.1 | `danmaku-jellyfintv-v1.2.1-personal.apk`（51.5 MB，`C5FB551E82A0488E`）/ `danmaku-jellyfintv-v1.2.1-public.apk`（51.5 MB，`10D8AB6DCE90A65B`） | 新增 personal/public 构建变体；public 不含 Token 并带首次配置，personal 由 `local.properties` 预注入；两套 debug 均编译、签名通过 |
 | 2026-10-20 | `upstream/master` `3d087faa0`（2026-09-13） | 1.2.0 | `danmaku-jellyfintv-v1.2.0.apk`（55.0 MB，SHA-256 前 16 位 `214FEB970B50951D`） | 弹幕源切换为自建 misaka（`match` + `comment`），移除 dandanplay/服务端 XML 分支；`assembleDebug` 通过 |
 | 2026-09-15 | `upstream/master` `3d087faa0`（2026-09-13） | 1.1.1 | `danmaku-jellyfintv-v1.1.1.apk`（49.3 MB，SHA-256 前 16 位 `1A3DB882BF53962D`） | rebase 成功，`assembleDebug` 通过；缓冲保留本项目覆盖 |
@@ -46,7 +47,7 @@ git push --force-with-lease origin danmaku
 - 产物：
   - personal：`app/build/outputs/apk/personal/debug/danmaku-jellyfintv-v<版本>-personal-debug.apk`
   - public：`app/build/outputs/apk/public/debug/danmaku-jellyfintv-v<版本>-public-debug.apk`
-- 版本号：`gradle.properties` 的 `jellyfin.version`（当前 `v1.2.1`）。
+- 版本号：`gradle.properties` 的 `jellyfin.version`（当前 `v1.2.2`）。
 - 构建变体：
   - `personal`：`applicationId=org.jellyfin.androidtv.debug`，从 `local.properties` 的 `misaka.api.base`（或环境变量 `MISAKA_API_BASE`）注入 Token。**只在本机使用，不提交、不上传公开 Release。**
   - `public`：`applicationId=org.jellyfin.androidtv.public.debug`，`MISAKA_API_BASE_URL` 固定为空；首次播放时弹配置框，用户填写自己的 misaka 地址和 Token。可以公开分发。
